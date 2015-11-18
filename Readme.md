@@ -13,7 +13,7 @@ The offered solution designed by having stability, security, performance, and sc
 	> ### Validation of incoming request:
 		* The only POST request to `/api` are served and other request are ignored.
 		* The `Content-Type` header of requests *must* be `application/json` .
-		* The post request body should be in JSON format contating `movie_resource_url` i.e `{"movie_resource_url": "http://content.viaplay.se/..."}
+		* The post request body should be in JSON format contating `movie_resource_url` i.e `{"movie_resource_url": "http://content.viaplay.se/..."}`
 		* if all the conditions above have met the server checks to ensure if the requested url in `movie_resource_url` is a valid request.
 		* A complete set of unit test were written covering all the codes and procedures in the solution, which bring a more stable solution, increase future development productivity, and it would male refactoring and debugging much easier. Specifically 5 behavourial tests, and 1 end to end system test.
 
