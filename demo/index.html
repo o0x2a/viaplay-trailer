@@ -81,13 +81,13 @@
 
     <footer class="footer">
       <div class="container">
-        <p class="text-muted">made with <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color:red"></span> by <a href="https://github.com/code-guru">@code-guru</a></p>
+        <p class="text-muted">made with <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color:red"></span> by <a href="https://github.com/code-guru/viaplay-trailer">@code-guru</a></p>
       </div>
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   	<script type="text/javascript">
     	$(function(){
-    		window.trailerApi = function(viaUrl, resolve, reject) { 
+    		var trailerApi = function(viaUrl, resolve, reject) { 
     			$.ajax({
     				url: '/api',
     				method: 'post',
@@ -118,8 +118,6 @@
     			}
 				e.preventDefault();
     		});
-
-    		//window.setVideo = function(newUrl){ $('iframe').attr('src', newUrl) };
     	});
     </script>
   </body>
