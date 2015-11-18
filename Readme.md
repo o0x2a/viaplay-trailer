@@ -1,21 +1,22 @@
 ## How to setup?
-Just extract the project files from the archive in a folder, on use git-clone to get a copy from the repository, then run `npm install` to install the dependencies, and then you can start the server using command `npm start`. You can also run the test suits with command `npm test` . You can find a web implementation demo in `./demo` folder.
+Just extract the project files from the archive in a folder, on use git-clone to get a copy from the repository, then run `npm install` to install the dependencies, and then you can start the server using command `npm start`. You can also run the test suits with command `npm test` . You can find a web implementation demo in `./demo` folder. After starting the server on the local machine the API endpoint is accessible at `http://localhost/api` (handle POST request), and you can see the demo at `http://localhost/demo`.  
 
 ##What technologies used?
 	- Node.js     |    Application Server
 	- Express.js  |    Web development framework
 	- Mocha.js    |    Test frameworks
 	- Redis       |    In-memory data store
-	- Others      |  Libraries(JSONStream, sax, request, jade, node-sass, expect.js)
+	- Others      |    Libraries(JSONStream, sax, request, jade, node-sass, expect.js,...)
+
 
 ##Stability
 The offered solution designed by having stability, security, performance, and scalibility in mind.
-	> ### Validation of incoming request:
-		* The only POST request to `/api` are served and other request are ignored.
-		* The `Content-Type` header of requests *must* be `application/json` .
-		* The post request body should be in JSON format contating `movie_resource_url` i.e `{"movie_resource_url": "http://content.viaplay.se/..."}`
-		* if all the conditions above have met the server checks to ensure if the requested url in `movie_resource_url` is a valid request.
-		* A complete set of unit test were written covering all the codes and procedures in the solution, which bring a more stable solution, increase future development productivity, and it would male refactoring and debugging much easier. Specifically 5 behavourial tests, and 1 end to end system test.
+> ### Validation of incoming request:
+> * The only POST request to `/api` are served and other request are ignored.
+> * The `Content-Type` header of requests must be `application/json` .
+> * The post request body should be in JSON format contating `movie_resource_url` i.e `{"movie_resource_url": "http://content.viaplay.se/..."}`.
+> * if all the conditions above have met the server checks to ensure if the requested url in `movie_resource_url` is a valid request.
+> * A complete set of unit test were written covering all the codes and procedures in the solution, which bring a more stable solution, increase future development productivity, and it would male refactoring and debugging much easier. Specifically 5 behavourial tests, and 1 end to end system test.
 
 ##Performance
 By taking benefits from asynchronous nature of node.js and in-memory data store provided by Redis, the resulting solution has a very high performance.
@@ -34,27 +35,26 @@ To increase the scalability of the node.js we should run a web-server such as ng
 
 ![A demonstration of the capability of the work](http://i.imgur.com/JXIwkGi.png)
 
-
  ----------
- Licence
- ---------
- >The MIT License
+ 
+## Licence
+ 
+>The MIT License
 
-
- >Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- >The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
-
- >THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
+>Permission is hereby granted, free of charge, to any person obtaining a copy
+>of this software and associated documentation files (the "Software"), to deal
+>in the Software without restriction, including without limitation the rights
+>to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+>copies of the Software, and to permit persons to whom the Software is
+>furnished to do so, subject to the following conditions:
+>
+>The above copyright notice and this permission notice shall be included in
+>all copies or substantial portions of the Software.
+>
+>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+>IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+>FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+>AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+>LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+>OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+>THE SOFTWARE.
