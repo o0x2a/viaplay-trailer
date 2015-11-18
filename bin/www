@@ -1,0 +1,91 @@
+#!/usr/bin/env node
+
+var app = require('../app');
+var debug = require('debug')('ViaPlayProva:server');
+var http = require('http');
+var cluster = require('cluster');
+var constants = require('../lib/constants.js');
+
+/* create server cluster to utilize all CPU cores */
+if(cluster.isMaster) {
+  var numOfCores = require('os').cpus().length;
+
+  console.log('Master cluster setting up ' + numOfCores + ' workers...');
+
+  /* create workers base on number of CPU cores*/
+  for(var i = 0; i < numOfCores; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('online', function(worker) {
+    console.log('Worker ' + worker.process.pid + ' is online');
+  });
+
+  /* replace a dead worker with a new one */
+  cluster.on('exit', function(worker, code, signal) {
+    console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
+    console.log('Starting a new worker');
+    cluster.fork();
+  });
+
+} else {
+  var port = normalizePort(process.env.PORT || constants.port);
+  app.set('port', port);
+
+  var server = http.createServer(app);
+
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+}
+
+
+
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

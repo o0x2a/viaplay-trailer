@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="ViaPlay Trailer API Demo">
+    <meta name="author" content="Mehdi Tirgar">
+    <title>Trailer API Demp</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+	<style>
+		html {
+		  position: relative;
+		  min-height: 100%;
+		}
+		body {
+		  margin-bottom: 60px;
+		}
+		.footer {
+		  position: absolute;
+		  bottom: 0;
+		  width: 100%;
+		  height: 60px;
+		  background-color: #f5f5f5;
+		}
+
+		.container {
+		  width: auto;
+		  max-width: 680px;
+		  padding: 0 15px;
+		}
+		.container .text-muted {
+		  margin: 20px 0;
+		}
+	</style>
+  </head>
+
+  <body>
+
+    <!-- Begin page content -->
+    <div class="container">
+      
+        <h2>Viaplay Trailer Addict API</h2>
+           
+		 <div class="col-xs-12">
+		 	<form id="searchform" method="post" action="#">
+			<div class="input-group">
+				  <input type="text" class="form-control" placeholder="Viaplay movie resource url ...">
+				  <span class="input-group-btn">
+						<button class="btn btn-default" type="submit">Go!</button>
+				  </span>
+			</div><!-- /input-group -->
+			</form>
+		  </div><!-- /.col-lg-6 -->
+		</div><!-- /.row -->
+		<br>
+		<div class="row">
+			<div class="container">
+				<div class="column-xs-12">
+					<div style="opacity: 0" id="alertbox" class="alert alert-success alert-dismissible" role="alert">
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					  <span id="alerttext"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	 </div>
+	<div class="container">	 
+		<div class="row">
+			<div class="cloumn-xs-12">
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe width="680" height="383" src="" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" scrolling="no" frameborder="0"></iframe>
+				</div>
+	  		</div>
+		</div>
+	</div>
+
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">made with <span class="glyphicon glyphicon-heart" aria-hidden="true" style="color:red"></span> by <a href="https://github.com/code-guru">@code-guru</a></p>
+      </div>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  	<script type="text/javascript">
+    	$(function(){
+    		window.trailerApi = function(viaUrl, resolve, reject) { 
+    			$.ajax({
+    				url: '/api',
+    				method: 'post',
+    				dataType: 'json',
+    				data: {'movie_resource_url': viaUrl}
+    			}).done(resolve.bind(null))
+    			  .fail(reject.bind(null)); 
+    		};
+
+    		$('#alertbox [data-dismiss]').on('click', function(){
+    			$('#alertbox').animate({opacity: 0.01}, 1000);
+    		});
+
+    		$('#searchform').on('submit', function(e) {
+    			var url = $('#searchform input').val();
+    			if(url) {
+    				$('#alertbox').animate({opacity: 0.01}, 100);
+    				trailerApi(url, function(data){
+    					$('#alerttext').text(data.trailer_url);
+    					$('#alertbox').removeClass('alert-danger').addClass('alert-success');
+    					$('#alertbox').animate({opacity: 1}, 1000);
+    					$('iframe').attr('src', data.trailer_url);
+    				}, function(jqxhr){
+    					$('#alerttext').text(jqxhr.responseJSON && jqxhr.responseJSON.error ? jqxhr.responseJSON.error : '');
+    					$('#alertbox').removeClass('alert-success').addClass('alert-danger');
+    					$('#alertbox').animate({opacity: 1}, 1000);
+    				});
+    			}
+				e.preventDefault();
+    		});
+
+    		//window.setVideo = function(newUrl){ $('iframe').attr('src', newUrl) };
+    	});
+    </script>
+  </body>
+</html>
