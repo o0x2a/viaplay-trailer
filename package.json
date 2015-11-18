@@ -14,7 +14,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/code-guru/viaplay-trailer.org"
+    "url": "https://github.com/code-guru/viaplay-trailer"
   },
   "dependencies": {
     "JSONStream": "^1.0.6",
