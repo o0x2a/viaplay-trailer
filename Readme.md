@@ -35,7 +35,8 @@ To increase the scalability of the node.js we should run a web-server such as ng
 
 ![A demonstration of the capability of the work](http://i.imgur.com/JXIwkGi.png)
 
- ----------
+
+
  
 ## Licence
  
