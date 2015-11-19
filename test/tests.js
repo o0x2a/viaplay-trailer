@@ -31,7 +31,7 @@ describe('end2end api system test',() => {
                 'Content-Type': 'application/json'
             }
         };
-        let postData = `{"movie_resource_url": "${viaplay_url}"}`
+        let postData = `{"movie_resource_url": "${viaplay_url}"}`;
         request(options, (err,resp,body)=>{
             if(err && err.code === 'ECONNREFUSED') {
                 console.error('    >> In order to perfom the end2en test, you need to start the server.');
