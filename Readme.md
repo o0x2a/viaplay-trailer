@@ -10,7 +10,7 @@ curl -H 'Content-Type: application/json' -d '{"movie_resource_url":"https://cont
 {"trailer_id":"98689","trailer_url":"https://v.traileraddict.com/98689"}
 ```
 
-*Please note that you need to have Redis service running on its default port.*
+** *Please note that you need to have Redis server running on its default port.*
 
 ##What technologies used?
 	- Node.js     |    Application Server
