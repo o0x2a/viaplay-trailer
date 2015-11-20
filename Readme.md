@@ -1,5 +1,16 @@
 ## How to setup?
-Just extract the project files from the archive in a folder, on use git-clone to get a copy from the repository, then run `npm install` to install the dependencies, and then you can start the server using command `npm start`. You can also run the test suits with command `npm test` . You can find a web implementation demo in `./demo` folder. After starting the server on the local machine the API endpoint is accessible at `http://localhost/api` (handle POST request), and you can see the demo at `http://localhost/demo`.  
+Just extract the project files from the archive in a folder, on use git-clone to get a copy from the repository, then run `npm install` to install the dependencies, and then you can start the server using command `npm start`. You can also run the test suits with command `npm test`. 
+
+After starting the server on the local machine the API endpoint is accessible at `http://localhost/api` (accepts POST requests).
+
+You can see the demo at `http://localhost/demo`, or alternatively use `curl` in termial to try it out.
+```bash
+curl -H 'Content-Type: application/json' -d '{"movie_resource_url":"https://content.viaplay.se/web-se/film/lucy-2014"}' http://localhost:3000/api
+
+{"trailer_id":"98689","trailer_url":"https://v.traileraddict.com/98689"}
+```
+
+*Please note that you need to have Redis service running on its default port.*
 
 ##What technologies used?
 	- Node.js     |    Application Server
