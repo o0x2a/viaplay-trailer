@@ -1,9 +1,9 @@
 ## How to setup?
-Just extract the project files from the archive in a folder, on use git-clone to get a copy from the repository, then run `npm install` to install the dependencies, and then you can start the server using command `npm start`. You can also run the test suits with command `npm test`. 
+Just extract the project files from the archive in a folder, or use `git clone` command to get a copy of the repository, then run `npm install` to install the dependencies. After all package were installed you can run the server using `npm start` command. You can also run the test suits with command `npm test`. 
 
-After starting the server on the local machine the API endpoint is accessible at `http://localhost/api` (accepts POST requests).
+After starting the server on the local machine the API endpoint is accessible at `http://localhost:3000/api` (accepts POST requests).
 
-You can see the demo at `http://localhost/demo`, or alternatively use `curl` in termial to try it out.
+You can see the demo at `http://localhost:3000/demo`, or alternatively use `curl` in termial to try it out.
 ```bash
 curl -H 'Content-Type: application/json' -d '{"movie_resource_url":"https://content.viaplay.se/web-se/film/lucy-2014"}' http://localhost:3000/api
 
@@ -21,26 +21,26 @@ curl -H 'Content-Type: application/json' -d '{"movie_resource_url":"https://cont
 
 
 ##Stability
-The offered solution designed by having stability, security, performance, and scalibility in mind.
-A complete set of unit test were written covering all the codes and procedures in the solution, which bring a more stable solution, increase future development productivity, and it would make refactoring and debugging much easier.
+The offered solution designed having stability, security, performance, and scalibility in mind.
+A complete set of unit test were written covering all the solution's functionality. Having a high test coverage can bring a more stable solution, increase future development productivity, and it would make refactoring and debugging much easier.
 
 > ### Validation of incoming request:
 > * The only POST request to `/api` are served and other request are ignored.
 > * The `Content-Type` header of requests must be `application/json` .
-> * The post request body should be in JSON format contating `movie_resource_url` i.e `{"movie_resource_url": "http://content.viaplay.se/..."}`.
-> * if all the conditions above have met the server checks to ensure if the requested url in `movie_resource_url` is a valid request.
+> * The post request body should be in JSON format contating `movie_resource_url` property i.e `{"movie_resource_url": "http://content.viaplay.se/..."}`.
+> * if all the conditions above have been met the server would check the if the requested url in `movie_resource_url` property is a valid viaplay movie resource url.
 
 
 ##Performance
-By taking benefits from asynchronous nature of node.js and in-memory data store provided by Redis, the resulting solution has a very high performance.
+By taking advantage from asynchronous nature of node.js and in-memory data store provided by Redis, we could achieve create a solution with a very high performance.
 > ### Optimizations:
-> * All the methods call and data flow in the solution are asynchronous by design mostly by using Promise and Stream objects.
-> * Stream and data piping were used to parse and JSON and XML data, hence the solution are capable of handling large JSON and XML inputs.
-> * All the successful requests are cached in Redis data store, and will be used in future request. It means we send minimum number of API calls to upstream servers.
-> The response for subsequent requests are retrieved from Redis directly, and since Redis is an in-memory data-store, the response will be emitted even faster as if a static page were served.
+> * All the methods call and data flow in the soultion are designed ina an asynchronous way by using Promise and Stream objects.
+> * Stream and data piping were used to fetch and parse JSON and XML data, hence the solution are capable of handling large JSON and XML inputs.
+> * All the successful requests are cached in Redis data store, and will be used in future request. This means that we would send minimum number of API calls to the upstream servers.
+> The response for subsequent requests are retrieved from Redis directly without any processing, and since Redis is an in-memory data-store, the response will be emitted even faster as if a static page were served.
  
 ### Benchmark
-The application could handle ~1500 request per seconds successfully (generating result from data in cache). The mean time for response were 21ms and 0.68ms across all cuncurrent request. ApacheBenchmark command-line tool were used for the task. The benchmark executed on 6yrs old laptop with core i5 2.4ghz CPU. Below is the detailed result from the ApacheBenchmark.
+The application could handle ~1500 request per seconds successfully (generating result from data in cache). The mean time for response were 21ms and 0.68ms across all cuncurrent request. ApacheBenchmark command-line tool were used for the task. The benchmark executed on 6yrs old laptop with core i5 2.4ghz CPU. Below is the detailed result from the ApacheBenchmark. (The console logging were turned off during the benchmark. You can disable logging by commenting the line `app.use(logger('dev'))` in `app.js` file.)
  
  ```bash
  ab -n 10000 -c 32 -p postreq.txt -T application/json  http://localhost:3000/api
@@ -104,9 +104,9 @@ Percentage of the requests served within a certain time (ms)
  ```
 
 ##Scalability
-In order to offer services to thousand and millions of the people, we need to ensure that our system is scale-able. Node.js always run in a single-thread, however because of its asynchronuos I/O, it is ten times faster than Apache, or IIS, when handling network and database and link data. However in real-life applications also performs computation that needs CPU cycle such as regular expressions and string manipulation. On the other hand, it has been a decade that almost all CPU structures has become multi-core. In order to utilize all of the computation power of the hosting machine we need to run multi-threaded Node.js. Hopefully, this is possible in node.js with node.js `cluster` package. In this solution, we managed to to design a multi-thread node.js, in which the starting process become *master* and fork itself to other processes and requests are done by the least busiest worker or in round robin fashion.
+In order to offer services to thousands or millions of users, we need to ensure that our system is scaleable. Node.js always run in a single-thread, however because of its asynchronuos I/O, it is outperfom its multithread alternatives such as Apache, or IIS, when handling files, network and database connection. However in real-life situation, applications also performs tasks that needs high CPU cycles such as executing regular expressions and string manipulation. On the other hand, it has been more than a decade that almost all CPU structures has become multi-core. In order to utilize all of the computation power of the hosting machine we need to user multi-threading and run our application concurrently. Hopefully, this is possible using the `cluster` package. In this solution, we implement clustring and mulithreading, in which the starting process become *master* and creates forks based on the number of the machine's CPU cores. Thus, the requests are served by the least busiest worker or in round robin fashion.
 
-To increase the scalability of the node.js we should run a web-server such as nginx in front of node.js and reverse proxy the request through the webserver to the node.js application. We can also scale horizontally by having the same code running on different machines and use a load balancer to divide the traffic between those, furthermore we can use a message broker (Redis can be used as one) to synchronize the state between the machines and nodes.
+To increase the scalability of the node.js we should run a web-server such as nginx in front of our node.js application and reverse proxy the request through the webserver to the node.js application. We can also scale horizontally by having the same code running on different machines and use a load balancer to divide the traffic between those, furthermore we can use a message queue (Redis pub/sub feature can provide this to some extends) to synchronize the state between the nodes.
 
 ![Running the test suits](http://i.imgur.com/piErxZd.png) ![Start our multi-threaded node.js application](http://i.imgur.com/yFRwYJP.png)
 
