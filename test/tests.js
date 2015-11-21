@@ -34,8 +34,7 @@ describe('end2end api system test',() => {
         let postData = `{"movie_resource_url": "${viaplay_url}"}`;
         request(options, (err,resp,body)=>{
             if(err && err.code === 'ECONNREFUSED') {
-                console.error('    >> In order to perfom the end2en test, you need to start the server.');
-                return;
+                expect().fail('In order to perform the e2e test, the server should be already running.');
             }
             expect(resp.statusCode).to.eql(200);
             expect(JSON.parse(body).trailer_id).to.eql(80628);
